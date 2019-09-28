@@ -1,0 +1,157 @@
+//Luis Ángel García Méndez
+//A01633335
+//LinkedListManager
+
+public class LinkedList {
+
+	Node head = null;
+	
+	public void addNode(Node n) {
+		////The list is brand new
+		if(head == null) {
+			head = n;
+			head.next = null;
+		}
+		else {   ///I already have a list with at least ONE node
+			Node tmp = head;
+			//// Searching for the last node
+			while(tmp.next != null) {
+				tmp = tmp.next;
+			}
+			/// I found it and I need to add it to the end
+			tmp.next = n;
+			//// move the tmp to the last one			
+			tmp = tmp.next;
+			//// next of last one should be NULL
+			tmp.next = null;
+		}
+		
+	}
+	
+	public int deleteFirstNode() {
+		if(head == null) {
+			return -1;
+		}
+		else {
+			
+			Node tmp = head;
+			head = head.next;
+			tmp.next =null;  ///This tmp was the head and we disconnect it from the rest of the list
+			tmp = null;
+			return 1;
+		}		
+	}
+	
+	public void updateNode(int ID, String author, String title) {
+		Node puntero = head;
+		if(head != null) {
+			while(puntero.next != null) {
+			if(puntero.ID == ID) {
+				puntero.authorName = author;
+				puntero.title = title;
+				
+			}
+			puntero = puntero.next;
+			}
+		}
+		
+	}
+	public void insertNode(int index, Node n) {
+		if(head == null) {
+			head = n;
+		}else {
+			Node puntero = head;
+			int contador = 0;
+			while(puntero.next != null) {
+				puntero = puntero.next;
+				contador++;
+			}
+			n.next = puntero.next;
+			puntero.next = n;
+		}
+	}
+	
+	
+	public void deleteNode(int n) {
+		if(head != null) {
+			if(n == 0) {
+				Node primer = head;
+				head = head.next;
+				primer.next = null;
+			}else {
+		Node puntero = head;
+		int contador =0 ;
+		while(contador < (n-1)) {
+			puntero = puntero.next;
+			contador++;
+				}
+			
+		Node temp = puntero.next;
+		puntero.next = temp.next;
+		temp.next = null;
+			}
+		}
+	}
+	
+	public boolean hasLoop(Node head) {
+		Node puntero1=head;
+		Node puntero2=head;
+		
+		while(puntero2 != null && puntero2.next != null) {
+			puntero1=puntero1.next;
+			puntero2=puntero2.next.next;
+			
+			if(puntero1==puntero2) {
+				return true;
+			}
+		}	
+		 
+		return false;
+	}
+	
+	
+	public void printList() {
+		Node tmp = head;
+		while(tmp != null) {
+			System.out.println(tmp.title);
+			tmp = tmp.next;
+		}
+		
+		
+	}
+	
+	public static void main(String[] args) {
+		
+		Node test1 = new Node("Victor Hugo","Les Miserables",  1);
+		Node test2 = new Node("Fiodor Dostoievski","Crime and Punishment",  2);
+		Node book3 = new Node("Jordi Rosado","Quiubole Con",  3);
+		
+		LinkedList llist = new LinkedList();
+		llist.addNode(test1);
+		llist.addNode(test2);
+		llist.addNode(book3);
+		llist.printList();
+		System.out.println("------------------------------------------------------------");
+		llist.updateNode(1, "JK Rowling", "Harry potter");
+		llist.printList();
+		System.out.println("-------------------------------------------------------------");
+		llist.deleteNode(2);
+		llist.printList();
+
+	}
+
+}
+
+class Node{
+	
+	public Node(String author, String title, int ID) {
+		this.authorName = author;
+		this.title = title;
+		this.ID = ID;
+	}
+	
+	String authorName;
+	String title;
+	int ID;
+	Node next;	
+}
